@@ -3,7 +3,7 @@ name: style&tests
 on: push
 
 jobs:
-  check-style:
+  check-style&tests:
     name: Lint code base
     runs-on: ubuntu-18.04
 
@@ -14,16 +14,8 @@ jobs:
         run: npm install
       - name: Run make lint
         run: make lint
-  testins:
-    name: Tests
-    runs-on: ubuntu-18.04
-
-    steps:
-      - name: Npm install
-        run: npm install
-        env:
-          CI: true
       - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.4
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
