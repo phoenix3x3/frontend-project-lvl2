@@ -1,0 +1,25 @@
+name: style and tests
+
+on: push
+
+jobs:
+  check-style:
+    name: Lint code base
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Npm install
+        run: npm install
+      - name: Run make lint
+        run: make lint
+  testins:
+    name: Tests
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Npm install
+        run: npm install
+      - name: Run make test
+        run: make test

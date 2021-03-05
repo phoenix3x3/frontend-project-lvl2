@@ -1,3 +1,7 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/ffed285ea8959ba4b5c8/maintainability)](https://codeclimate.com/github/phoenix3x3/frontend-project-lvl2/maintainability)
+
+[![Test Coverage](https://api.codeclimate.com/v1/badges/ffed285ea8959ba4b5c8/test_coverage)](https://codeclimate.com/github/phoenix3x3/frontend-project-lvl2/test_coverage)
+
 ### Hexlet tests and linter status:
 
 [![Actions Status](https://github.com/phoenix3x3/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/phoenix3x3/frontend-project-lvl2/actions)
