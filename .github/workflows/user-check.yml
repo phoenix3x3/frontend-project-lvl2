@@ -3,7 +3,7 @@ name: style&tests
 on: push
 
 jobs:
-  check-style&tests:
+  check-style:
     name: Lint code base
     runs-on: ubuntu-18.04
 
@@ -14,6 +14,15 @@ jobs:
         run: npm install
       - name: Run make lint
         run: make lint
+  check-tests:
+    name: Test-coverage
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Npm install
+        run: npm install
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.4
         env:
