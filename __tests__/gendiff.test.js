@@ -8,9 +8,14 @@ const __dirname = dirname(__filename);
 
 const filepath1 = path.resolve(__dirname, '__fixtures__/file1.json');
 const filepath2 = path.resolve(__dirname, '__fixtures__/file2.json');
-const filepath3 = path.resolve(__dirname, '__fixtures__/file3.txt');
-const result = fs.readFileSync(filepath3, 'utf8');
+const filepath3 = path.resolve(__dirname, '__fixtures__/file1.yml');
+const filepath4 = path.resolve(__dirname, '__fixtures__/file2.yml');
+const resultpath = path.resolve(__dirname, '__fixtures__/file3.txt');
+const result = fs.readFileSync(resultpath, 'utf8');
 
-test('genDiff #1', () => {
-  expect(genDiff(filepath1, filepath2)).toEqual(result);
+test('genDiff json', () => {
+  expect(genDiff(filepath1, filepath2)).toBe(result);
+});
+test('genDiff yml', () => {
+  expect(genDiff(filepath3, filepath4)).toBe(result);
 });
