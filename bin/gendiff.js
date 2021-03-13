@@ -1,6 +1,9 @@
 #!/usr/bin/env node
-import program from 'commander';
+// import program from 'commander';
+import { Command } from 'commander/esm.mjs';
 import genDiff from '../src/genDiff.js';
+
+const program = new Command();
 
 program
   .version('0.0.1')
@@ -12,4 +15,4 @@ program
     console.log(`\n${result}\n`);
   });
 
-program.parse(process.argv);
+program.parse();
