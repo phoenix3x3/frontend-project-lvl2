@@ -15,3 +15,15 @@
 #### YML
 
 [![asciicast](https://asciinema.org/a/22DKvPnSonwTPLp04OHbwDj4B.svg)](https://asciinema.org/a/22DKvPnSonwTPLp04OHbwDj4B)
+
+#### Stylish
+
+[![asciicast](https://asciinema.org/a/5t2u8XCjwVt29XOTl6iz3T3ys.svg)](https://asciinema.org/a/5t2u8XCjwVt29XOTl6iz3T3ys)
+
+#### Plain
+
+[![asciicast](https://asciinema.org/a/793o1bVidl0coQepAL2yc5NQu.svg)](https://asciinema.org/a/793o1bVidl0coQepAL2yc5NQu)
+
+#### JSON
+
+[![asciicast](https://asciinema.org/a/QdA4OBj8FSwfr4GpJ1HT9XRho.svg)](https://asciinema.org/a/QdA4OBj8FSwfr4GpJ1HT9XRho)
