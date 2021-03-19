@@ -23,6 +23,7 @@
   "homepage": "https://github.com/phoenix3x3/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "7.1.0",
+    "jest-cli": "^26.6.3",
     "js-yaml": "4.0.0",
     "lodash": "4.17.21"
   },
