@@ -32,7 +32,7 @@ const inter = (diff, tabCount) => {
     };
 
     if (!lines[type]) {
-      throw new Error(`${type} is not defined`);
+      throw new Error();
     }
 
     return lines[type]();
