@@ -32,7 +32,7 @@ const inter = (diff, tabCount) => {
     };
 
     if (!lines[type]) {
-      throw new Error();
+      throw new Error(`incorrect type`);
     }
 
     return lines[type]();
