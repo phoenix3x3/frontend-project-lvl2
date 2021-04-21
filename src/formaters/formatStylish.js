@@ -8,7 +8,6 @@ const convert = (item, gap) => {
   const func = ([key, value]) => `{\n${gap}${tab.repeat(3)}${key}: ${value}\n${gap}${tab}}`;
   return Object.entries(item).flatMap(([key, value]) => func([key, value]));
 };
-
 const inter = (diff, tabCount) => {
   const func = ({ type, key, removedValue = null, currentValue = null }) => {
     const gap = tab.repeat(tabCount);
@@ -31,6 +30,11 @@ const inter = (diff, tabCount) => {
       },
       replaced: () => [lines.removed(), lines.added()],
     };
+
+    if (!lines[type]) {
+      throw new Error(`${type} is not defined`);
+    }
+
     return lines[type]();
   };
 
