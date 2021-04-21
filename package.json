@@ -2,9 +2,9 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/phoenix3x3/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/phoenix3x3/frontend-project-lvl2/actions)",
-  "main": "bin/gendiff.js",
+  "main": "index.js",
   "scripts": {
-    "test": "jest --colors --runInBand --bail"
+    "test": "npx jest"
   },
   "engines": {
     "node": ">=14"
@@ -26,7 +26,6 @@
   "homepage": "https://github.com/phoenix3x3/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "7.1.0",
-    "jest-cli": "26.6.3",
     "js-yaml": "4.0.0",
     "lodash": "4.17.21"
   },
@@ -34,6 +33,7 @@
     "gendiff": "bin/gendiff.js"
   },
   "devDependencies": {
+    "@jest/globals": "26.6.2",
     "eslint": "7.20.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "8.1.0",
