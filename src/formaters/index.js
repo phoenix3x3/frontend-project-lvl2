@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import formatStylish from './formatStylish.js';
 import formatPlain from './formatPlain.js';
 import formatJson from './formatJson.js';
@@ -8,4 +9,9 @@ const formaters = {
   json: formatJson,
 };
 
-export default (diff, format) => formaters[format](diff);
+export default (diff, format) => {
+  if (_.has(formaters, format)) {
+    return formaters[format](diff);
+  }
+  throw new Error(`${format} format not available`);
+};
