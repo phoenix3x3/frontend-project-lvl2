@@ -30,11 +30,9 @@ const inter = (diff, tabCount) => {
       },
       replaced: () => [lines.removed(), lines.added()],
     };
-
     if (!lines[type]) {
-      throw new Error(`incorrect type`);
+      return '';
     }
-
     return lines[type]();
   };
 
