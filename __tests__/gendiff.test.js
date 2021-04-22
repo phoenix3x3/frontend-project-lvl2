@@ -21,7 +21,9 @@ describe.each`
   ${jsonFilePath1} | ${jsonFilePath2} | ${'stylish'} | ${getResult('stylish')}
   ${ymlFilePath1}  | ${ymlFilePath2}  | ${'plain'}   | ${getResult('plain')}
   ${jsonFilePath1} | ${ymlFilePath2}  | ${'json'}    | ${getResult('json')}
-`('$format format', ({ filePath1, filePath2, format, expected }) => {
+`('$format format', (
+  { filePath1, filePath2, format, expected }  
+) => {
   test('gendiff', () => {
     expect(genDiff(filePath1, filePath2, format)).toBe(expected);
   });
