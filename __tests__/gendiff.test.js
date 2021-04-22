@@ -27,7 +27,7 @@ describe.each`
     filePath2,
     format,
     expected,
-  }
+  },
 ) => {
   test('gendiff', () => {
     expect(genDiff(filePath1, filePath2, format)).toBe(expected);
