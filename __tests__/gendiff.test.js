@@ -22,7 +22,7 @@ describe.each`
   ${ymlFilePath1}  | ${ymlFilePath2}  | ${'plain'}   | ${getResult('plain')}
   ${jsonFilePath1} | ${ymlFilePath2}  | ${'json'}    | ${getResult('json')}
 `('$format format', ({ filePath1, filePath2, format, expected }) => {
-  test(`gendiff`, () => {
+  test('gendiff', () => {
     expect(genDiff(filePath1, filePath2, format)).toBe(expected);
   });
 });

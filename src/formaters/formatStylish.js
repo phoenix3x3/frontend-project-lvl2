@@ -16,7 +16,7 @@ const stringify = (data, depth) => {
   const keys = Object.keys(data);
 
   const result = keys.map(
-    (key) => `${buildIndent(depth + 1)}  ${key}: ${stringify(data[key], depth + 1)}`
+    (key) => `${buildIndent(depth + 1)}  ${key}: ${stringify(data[key], depth + 1)}`,
   );
 
   return `{\n${result.join('\n')}\n${' '.repeat((depth + 1) * indent)}}`;

@@ -23,7 +23,7 @@ const renderPlain = (tree) => {
           return `Property '${property}' was removed`;
         case 'replaced':
           return `Property '${property}' was updated. From ${stringify(
-            item.oldValue
+            item.oldValue,
           )} to ${stringify(item.newValue)}`;
         case 'nested':
           return internalTree(item.children, property);
