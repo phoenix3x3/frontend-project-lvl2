@@ -1,44 +1,53 @@
 import _ from 'lodash';
 
-const tab = '  ';
-const tabStep = 2;
+const smallIdent = 2;
+const indent = 4;
 
-const convert = (item, gap) => {
-  if (!(item instanceof Object)) return item;
-  const func = ([key, value]) => `{\n${gap}${tab.repeat(3)}${key}: ${value}\n${gap}${tab}}`;
-  return Object.entries(item).flatMap(([key, value]) => func([key, value]));
+const buildIndent = (depth) => {
+  const indentCount = depth * indent + smallIdent;
+  return ' '.repeat(indentCount);
 };
-const inter = (diff, tabCount) => {
-  const func = ({ type, key, removedValue = null, currentValue = null }) => {
-    const gap = tab.repeat(tabCount);
 
-    const lines = {
-      compared: () =>
-        `${gap}${tab}${key}: {\n${inter(currentValue, tabCount + tabStep)}\n${gap}${tab}}`,
-      equal: () => `${gap}${tab}${key}: ${convert(currentValue, gap)}`,
-      removed: () => {
-        if (currentValue instanceof Object) {
-          return `${gap}- ${key}: {\n${inter(currentValue, tabCount + tabStep)}\n${gap}${tab}}`;
+const stringify = (data, depth) => {
+  if (!_.isObject(data)) {
+    return data;
+  }
+
+  const keys = Object.keys(data);
+
+  const result = keys.map(
+    (key) => `${buildIndent(depth + 1)}  ${key}: ${stringify(data[key], depth + 1)}`
+  );
+
+  return `{\n${result.join('\n')}\n${' '.repeat((depth + 1) * indent)}}`;
+};
+
+const renderStylish = (tree) => {
+  const internalTree = (data, depth) => {
+    const result = data.map((noda) => {
+      switch (noda.type) {
+        case 'added':
+          return `${buildIndent(depth)}+ ${noda.key}: ${stringify(noda.value, depth)}`;
+        case 'removed':
+          return `${buildIndent(depth)}- ${noda.key}: ${stringify(noda.value, depth)}`;
+        case 'replaced': {
+          const oldValue = `${buildIndent(depth)}- ${noda.key}: ${stringify(noda.oldValue, depth)}`;
+          const newValue = `${buildIndent(depth)}+ ${noda.key}: ${stringify(noda.newValue, depth)}`;
+          return `${oldValue}\n${newValue}`;
         }
-        return `${gap}- ${key}: ${convert(removedValue, gap)}`;
-      },
-      added: () => {
-        if (currentValue instanceof Object) {
-          return `${gap}+ ${key}: {\n${inter(currentValue, tabCount + tabStep)}\n${gap}${tab}}`;
-        }
-        return `${gap}+ ${key}: ${convert(currentValue, gap)}`;
-      },
-      replaced: () => [lines.removed(), lines.added()],
-    };
-    if (!lines[type]) {
-      return '';
-    }
-    return lines[type]();
+        case 'equal':
+          return `${buildIndent(depth)}  ${noda.key}: ${stringify(noda.value, depth)}`;
+        case 'nested':
+          return `${buildIndent(depth)}  ${noda.key}: ${internalTree(noda.children, depth + 1)}`;
+        default:
+          throw new Error(`${noda.type} is not defined`);
+      }
+    });
+
+    return `{\n${result.join('\n')}\n${' '.repeat(depth * indent)}}`;
   };
 
-  const sortedObj = _.sortBy(diff, [(o) => o.key]);
-  const result = sortedObj.flatMap(func).join('\n');
-  return result;
+  return internalTree(tree, 0);
 };
 
-export default (diff) => `{\n${inter(diff, 1)}\n}`;
+export default (diff) => renderStylish(diff);

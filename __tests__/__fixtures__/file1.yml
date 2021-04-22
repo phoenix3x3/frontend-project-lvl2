@@ -15,10 +15,3 @@ group2:
   abc: 12345
   deep:
     id: 45
-group5:
-  abc: 12345
-  deep:
-    id:
-      more:
-        MORE:
-          ok: 0

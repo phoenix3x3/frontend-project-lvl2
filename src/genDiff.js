@@ -11,43 +11,53 @@ const getObject = (config) => {
   return parsers(data, extension);
 };
 
-const buildTree = (data1, data2) => {
-  const keys = _.union(_.keys(data1), _.keys(data2));
-  const func = (key) => {
-    const value1 = data1[key];
-    const value2 = data2[key];
-    if (value1 instanceof Object && value2 instanceof Object) {
-      return { type: 'compared', key, currentValue: buildTree(value1, value2) };
-    }
-    if (value1 instanceof Object && !value2) {
-      return { type: 'removed', key, currentValue: buildTree(value1, value1) };
-    }
-    if (!value1 && value2 instanceof Object) {
-      return { type: 'added', key, currentValue: buildTree(value2, value2) };
-    }
-    if (_.has(data1, key) && !_.has(data2, key)) {
-      return { type: 'removed', key, removedValue: value1 };
-    }
+const buildTree = (obj1, obj2) => {
+  const keysFromObj1 = Object.keys(obj1);
+  const keysFromObj2 = Object.keys(obj2);
 
-    if (!_.has(data1, key) && _.has(data2, key)) {
-      return { type: 'added', key, currentValue: value2 };
-    }
+  const uniqKeys = _.union(keysFromObj1, keysFromObj2);
+  const sortedKeys = _.sortBy(uniqKeys);
 
-    if (value1 === value2) {
+  const diff = sortedKeys.map((key) => {
+    const value1 = obj1[key];
+    const value2 = obj2[key];
+
+    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
       return {
-        type: 'equal',
         key,
-        currentValue: value1,
+        type: 'nested',
+        children: buildTree(value1, value2),
+      };
+    }
+    if (!_.has(obj1, key)) {
+      return {
+        key,
+        type: 'added',
+        value: value2,
+      };
+    }
+    if (!_.has(obj2, key)) {
+      return {
+        key,
+        type: 'removed',
+        value: value1,
+      };
+    }
+    if (_.isEqual(value1, value2)) {
+      return {
+        key,
+        type: 'equal',
+        value: value1,
       };
     }
     return {
-      type: 'replaced',
       key,
-      removedValue: value1,
-      currentValue: value2,
+      type: 'replaced',
+      oldValue: value1,
+      newValue: value2,
     };
-  };
-  return keys.map(func);
+  });
+  return diff;
 };
 
 const genDiff = (firstConfig, secondConfig, dataFormat = 'stylish') => {

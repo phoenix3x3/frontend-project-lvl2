@@ -1,35 +1,41 @@
 import _ from 'lodash';
 
-const convert = (item) => {
-  if (typeof item === 'string') return `'${item}'`;
-  if (item instanceof Object) return '[complex value]';
-  return item;
+const stringify = (val) => {
+  if (_.isObject(val)) {
+    return '[complex value]';
+  }
+  if (_.isString(val)) {
+    return `'${val}'`;
+  }
+  return val;
 };
 
-const buildPath = (dir, base) => [dir, base].filter((i) => i !== '').join('.');
+const renderPlain = (tree) => {
+  const internalTree = (data, ancestry = '') => {
+    const filtredTree = data.filter((item) => item.type !== 'equal');
+    const result = filtredTree.map((item) => {
+      const property = ancestry ? `${ancestry}.${item.key}` : item.key;
+      const newValue = stringify(item.value);
+      switch (item.type) {
+        case 'added':
+          return `Property '${property}' was added with value: ${newValue}`;
+        case 'removed':
+          return `Property '${property}' was removed`;
+        case 'replaced':
+          return `Property '${property}' was updated. From ${stringify(
+            item.oldValue
+          )} to ${stringify(item.newValue)}`;
+        case 'nested':
+          return internalTree(item.children, property);
+        default:
+          throw new Error(`${item.type} is not defined`);
+      }
+    });
 
-const inter = (diff, path = '') => {
-  const func = ({ type, key, removedValue = null, currentValue = null }) => {
-    const fullPath = buildPath(path, key);
-
-    const lines = {
-      compared: () => inter(currentValue, fullPath),
-      equal: () => '',
-      removed: () => `Property '${fullPath}' was removed`,
-      added: () => `Property '${fullPath}' was added with value: ${convert(currentValue)}`,
-      replaced: () =>
-        `Property '${fullPath}' was updated. From ${convert(removedValue)} to ${convert(
-          currentValue
-        )}`,
-    };
-
-    return lines[type]();
+    return result.join('\n');
   };
-  const result = _.sortBy(diff, [(o) => o.key]);
-  return result
-    .map(func)
-    .filter((item) => item !== '')
-    .join('\n');
+
+  return internalTree(tree);
 };
 
-export default (diff) => inter(diff);
+export default (diff) => renderPlain(diff);
